@@ -1,7 +1,8 @@
 import theme from "@/theme";
-import React from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
 import { AppBarTabProps } from "@/types/types";
+import React from "react";
+import { StyleSheet, Text } from "react-native";
+import { Link } from "react-router-native";
 
 const styles = StyleSheet.create({
   text: {
@@ -13,9 +14,9 @@ const styles = StyleSheet.create({
 
 const AppBarTab = (props: AppBarTabProps) => {
   return (
-    <Pressable onPress={() => console.log(props.tabName)}>
+    <Link to={props.tabName === "Sign In" ? "/sign-in" : "/"}>
       <Text style={styles.text}>{props.tabName}</Text>
-    </Pressable>
+    </Link>
   );
 };
 
