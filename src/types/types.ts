@@ -9,3 +9,7 @@ export interface RepositoryItemProps {
   reviewCount: number;
   ownerAvatarUrl: string;
 }
+
+export interface AppBarTabProps {
+  tabName: string;
+}
