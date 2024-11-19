@@ -4,7 +4,7 @@ import * as yup from "yup";
 
 const SignIn = () => {
   const onSubmit = (values: FormikValues) => {
-    console.log({ values });
+    console.log("hello!!");
   };
 
   const validationSchema = yup.object().shape({
