@@ -55,7 +55,7 @@ const SignIn = () => {
           {touched.password && errors.password && (
             <Text style={styles.error}>{errors.password}</Text>
           )}
-          <Pressable style={styles.button} onPress={handleSubmit}>
+          <Pressable style={styles.button} onPress={() => handleSubmit()}>
             <Text style={styles.buttonText}>Sign Up</Text>
           </Pressable>
         </View>
