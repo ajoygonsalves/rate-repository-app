@@ -1,18 +1,23 @@
+import createApolloClient from "@/utils/apolloClient";
+import { ApolloProvider } from "@apollo/client";
+import Constants from "expo-constants";
+import { StatusBar } from "expo-status-bar";
 import { NativeRouter } from "react-router-native";
 import Main from "./src/components/Main";
-import { StatusBar } from "expo-status-bar";
-import { ApolloProvider } from "@apollo/client";
-import createApolloClient from "@/utils/apolloClient";
 
 const App = () => {
   const apolloClient = createApolloClient();
+
+  console.log(Constants.expoConfig?.extra);
+
   return (
     <>
-      <ApolloProvider client={apolloClient}>
-        <NativeRouter>
+      <NativeRouter>
+        <ApolloProvider client={apolloClient}>
           <Main />
-        </NativeRouter>
-      </ApolloProvider>
+        </ApolloProvider>
+      </NativeRouter>
+
       <StatusBar style="auto" />
     </>
   );
