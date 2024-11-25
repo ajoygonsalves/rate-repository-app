@@ -1,14 +1,24 @@
+import useSignIn from "@/hooks/useSignIn";
 import { Formik, FormikValues } from "formik";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import * as yup from "yup";
 
 const SignIn = () => {
-  const onSubmit = (values: FormikValues) => {
-    console.log("hello!!");
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values: FormikValues) => {
+    const { email, password } = values;
+
+    try {
+      const { data } = await signIn({ username: email, password });
+      console.log({ data });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const validationSchema = yup.object().shape({
-    email: yup.string().email().required(),
+    email: yup.string(),
     password: yup.string().required(),
   });
 

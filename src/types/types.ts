@@ -1,3 +1,5 @@
+import { FetchResult } from "@apollo/client";
+
 export interface RepositoryItemProps {
   id: string;
   fullName: string;
@@ -13,3 +15,12 @@ export interface RepositoryItemProps {
 export interface AppBarTabProps {
   tabName: string;
 }
+
+export interface AuthenticateInput {
+  username: string;
+  password: string;
+}
+
+export type SignInFunction = (
+  input: AuthenticateInput,
+) => Promise<FetchResult<{ authenticate: { accessToken: string } }>>;
