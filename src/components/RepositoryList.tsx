@@ -70,7 +70,7 @@ const RepositoryList = () => {
     : [];
 
   return (
-    <>
+    <View>
       {loading && <Text>Loading...</Text>}
       {error && <Text>Error...</Text>}
       <FlatList
@@ -78,7 +78,7 @@ const RepositoryList = () => {
         renderItem={({ item }) => <RepositoryItem {...item} />}
         ItemSeparatorComponent={ItemSeparator}
       />
-    </>
+    </View>
   );
 };
 

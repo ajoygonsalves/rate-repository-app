@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
 const AppBarTab = (props: AppBarTabProps) => {
   return (
-    <Link to={props.tabName === "Sign In" ? "/sign-in" : "/"}>
+    <Link onPress={props.onPress} to={props.to}>
       <Text style={styles.text}>{props.tabName}</Text>
     </Link>
   );

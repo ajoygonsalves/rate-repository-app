@@ -1,4 +1,5 @@
 import { FetchResult } from "@apollo/client";
+import { GestureResponderEvent } from "react-native";
 
 export interface RepositoryItemProps {
   id: string;
@@ -14,6 +15,8 @@ export interface RepositoryItemProps {
 
 export interface AppBarTabProps {
   tabName: string;
+  to: string;
+  onPress?: ((event: GestureResponderEvent) => void) | undefined;
 }
 
 export interface AuthenticateInput {
@@ -21,6 +24,12 @@ export interface AuthenticateInput {
   password: string;
 }
 
+export interface AuthStorage {
+  getAccessToken(): Promise<string | null>;
+  setAccessToken(accessToken: string): Promise<void>;
+  removeAccessToken(): Promise<void>;
+}
+
 export type SignInFunction = (
-  input: AuthenticateInput,
+  input: AuthenticateInput
 ) => Promise<FetchResult<{ authenticate: { accessToken: string } }>>;
