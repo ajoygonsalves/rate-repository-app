@@ -31,5 +31,5 @@ export interface AuthStorage {
 }
 
 export type SignInFunction = (
-  input: AuthenticateInput
+  input: AuthenticateInput,
 ) => Promise<FetchResult<{ authenticate: { accessToken: string } }>>;

@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, Image } from "react-native";
-import { RepositoryItemProps } from "@/types/types";
 import theme from "@/theme";
+import { RepositoryItemProps } from "@/types/types";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -62,15 +62,21 @@ const RepositoryItem = (props: RepositoryItemProps) => {
       <View style={styles.imageAndTextContainer}>
         <Image source={{ uri: props.ownerAvatarUrl }} style={styles.image} />
         <View style={styles.textContainer}>
-          <Text style={styles.fullName}>{props.fullName}</Text>
-          <Text style={styles.description}>{props.description}</Text>
-          <Text style={styles.badge}>{props.language}</Text>
+          <Text style={styles.fullName} testID="fullName">
+            {props.fullName}
+          </Text>
+          <Text style={styles.description} testID="description">
+            {props.description}
+          </Text>
+          <Text style={styles.badge} testID="language">
+            {props.language}
+          </Text>
         </View>
       </View>
 
       <View style={styles.statsContainer}>
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>
+          <Text style={styles.statValue} testID="stargazersCount">
             {props.stargazersCount > 1000
               ? `${(props.stargazersCount / 1000).toFixed(1)}k`
               : props.stargazersCount}
@@ -79,7 +85,7 @@ const RepositoryItem = (props: RepositoryItemProps) => {
         </View>
 
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>
+          <Text style={styles.statValue} testID="forksCount">
             {props.forksCount >= 1000
               ? `${(props.forksCount / 1000).toFixed(1)}k`
               : props.forksCount}
@@ -88,12 +94,16 @@ const RepositoryItem = (props: RepositoryItemProps) => {
         </View>
 
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{props.reviewCount}</Text>
+          <Text style={styles.statValue} testID="reviewCount">
+            {props.reviewCount}
+          </Text>
           <Text style={styles.statLabel}>Reviews</Text>
         </View>
 
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{props.ratingAverage}</Text>
+          <Text style={styles.statValue} testID="ratingAverage">
+            {props.ratingAverage}
+          </Text>
           <Text style={styles.statLabel}>Rating</Text>
         </View>
       </View>

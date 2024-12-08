@@ -1,5 +1,4 @@
-import { GET_REPOSITORIES } from "@/graphql/queries";
-import { useQuery } from "@apollo/client";
+import useRepositories from "@/hooks/useRepositories";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import RepositoryItem from "./RepositoryItem";
 
@@ -59,11 +58,7 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
-  // const { repositories } = useRepositories(); THIS HOOK!
-
-  const { data, loading, error } = useQuery(GET_REPOSITORIES, {
-    fetchPolicy: "cache-and-network",
-  });
+  const { data, loading, error } = useRepositories();
 
   const repositoryNodes = data
     ? data.repositories.edges.map((edge: any) => edge.node)
@@ -71,8 +66,8 @@ const RepositoryList = () => {
 
   return (
     <View>
-      {loading && <Text>Loading...</Text>}
-      {error && <Text>Error...</Text>}
+      {!!loading && <Text>Loading...</Text>}
+      {!!error && <Text>Error...</Text>}
       <FlatList
         data={repositoryNodes}
         renderItem={({ item }) => <RepositoryItem {...item} />}
