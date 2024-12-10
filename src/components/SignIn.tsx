@@ -10,10 +10,10 @@ const SignIn = () => {
 
   const onSubmit = async (values: FormikValues) => {
     const { email, password } = values;
-    navigate("/");
 
     try {
       await signIn({ username: email, password });
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
