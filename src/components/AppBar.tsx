@@ -31,8 +31,6 @@ const AppBar = () => {
 
   const isLoggedIn = !!data?.me;
 
-  console.log("AppBar rerender");
-
   return (
     <View style={styles.container}>
       <ScrollView horizontal contentContainerStyle={styles.scrollViewContent}>

@@ -11,6 +11,7 @@ export interface RepositoryItemProps {
   ratingAverage: number;
   reviewCount: number;
   ownerAvatarUrl: string;
+  url: string;
 }
 
 export interface AppBarTabProps {
