@@ -3,10 +3,11 @@ import { useQuery } from "@apollo/client";
 import { Text, View } from "react-native";
 import { useParams } from "react-router-native";
 import RepositoryItem from "./RepositoryItem";
+import SingleRepositoryReview from "./SingleRepositoryReview";
 
 const SingleRepository = () => {
   let { repositoryId } = useParams();
-  console.log(repositoryId);
+
   const { data, loading, error } = useQuery(GET_SINGLE_REPOSITORY, {
     variables: { repositoryId },
     fetchPolicy: "cache-and-network",
@@ -31,6 +32,7 @@ const SingleRepository = () => {
   return (
     <View>
       <RepositoryItem {...repository} />
+      <SingleRepositoryReview respositoryId={repositoryId} />
     </View>
   );
 };

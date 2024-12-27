@@ -42,6 +42,36 @@ export const GET_SINGLE_REPOSITORY = gql`
       ratingAverage
       stargazersCount
       url
+      reviews {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_REVIEWS = gql`
+  query GET_REVIEWS($repositoryId: ID!) {
+    repository(id: $repositoryId) {
+      id
+      fullName
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
     }
   }
 `;
