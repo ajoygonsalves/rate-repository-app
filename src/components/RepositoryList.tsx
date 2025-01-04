@@ -1,6 +1,8 @@
 import useRepositories from "@/hooks/useRepositories";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import RepositoryItem from "./RepositoryItem";
+import { useState } from "react";
+import { Picker } from "@react-native-picker/picker";
 
 const styles = StyleSheet.create({
   separator: {
@@ -57,8 +59,43 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
+// Define the type for sort options
+type SortOption =
+  | "LATEST_REPOSITORIES"
+  | "HIGHEST_RATED_REPOSITORIES"
+  | "LOWEST_RATED_REPOSITORIES";
+
 const RepositoryList = () => {
-  const { data, loading, error } = useRepositories();
+  const orderByOptions = {
+    LATEST_REPOSITORIES: {
+      orderBy: "CREATED_AT",
+      orderDirection: "DESC",
+    },
+    HIGHEST_RATED_REPOSITORIES: {
+      orderBy: "RATING_AVERAGE",
+      orderDirection: "DESC",
+    },
+    LOWEST_RATED_REPOSITORIES: {
+      orderBy: "RATING_AVERAGE",
+      orderDirection: "ASC",
+    },
+  } as const; // Make this object constant
+
+  const [orderBy, setOrderBy] = useState("CREATED_AT");
+  const [orderDirection, setOrderDirection] = useState("DESC");
+  const [sortBy, setSortBy] = useState<SortOption>("LATEST_REPOSITORIES");
+
+  const handleSort = (value: SortOption) => {
+    setSortBy(value);
+    const { orderBy, orderDirection } = orderByOptions[value];
+    setOrderBy(orderBy);
+    setOrderDirection(orderDirection);
+  };
+
+  const { data, loading, error } = useRepositories({
+    orderBy: orderBy,
+    orderDirection: orderDirection,
+  });
 
   const repositoryNodes = data
     ? data.repositories.edges.map((edge: any) => edge.node)
@@ -72,6 +109,24 @@ const RepositoryList = () => {
         data={repositoryNodes}
         renderItem={({ item }) => <RepositoryItem {...item} />}
         ItemSeparatorComponent={ItemSeparator}
+        ListHeaderComponent={() => (
+          <View>
+            <Picker selectedValue={sortBy} onValueChange={handleSort}>
+              <Picker.Item
+                label="Latest repositories"
+                value="LATEST_REPOSITORIES"
+              />
+              <Picker.Item
+                label="Highest rated repositories"
+                value="HIGHEST_RATED_REPOSITORIES"
+              />
+              <Picker.Item
+                label="Lowest rated repositories"
+                value="LOWEST_RATED_REPOSITORIES"
+              />
+            </Picker>
+          </View>
+        )}
       />
     </View>
   );
