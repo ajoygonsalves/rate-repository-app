@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  const { data, loading } = useQuery(ME, {
+  const { data } = useQuery(ME, {
     fetchPolicy: "cache-and-network",
   });
 
@@ -31,15 +31,27 @@ const AppBar = () => {
 
   const isLoggedIn = !!data?.me;
 
+  const authenticatedTabs = [
+    <AppBarTab to="/add-review" tabName="Add Review" key="add-review" />,
+    <AppBarTab
+      onPress={handleSignOut}
+      to="/"
+      tabName="Sign Out"
+      key="sign-out"
+    />,
+  ];
+
+  const unauthenticatedTabs = [
+    <AppBarTab to="/sign-in" tabName="Sign In" key="sign-in" />,
+  ];
+
+  const tabs = isLoggedIn ? authenticatedTabs : unauthenticatedTabs;
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal contentContainerStyle={styles.scrollViewContent}>
-        <AppBarTab to="/" tabName="Repositories" />
-        {!loading && isLoggedIn ? (
-          <AppBarTab onPress={handleSignOut} to="/" tabName="Sign Out" />
-        ) : (
-          <AppBarTab to="/sign-in" tabName="Sign In" />
-        )}
+        <AppBarTab to="/" tabName="Repositories" key="repositories" />
+        {tabs}
       </ScrollView>
     </View>
   );
