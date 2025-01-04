@@ -30,7 +30,7 @@ const SingleRepository = () => {
   console.dir(data, { depth: null });
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <RepositoryItem {...repository} />
       <SingleRepositoryReview respositoryId={repositoryId} />
     </View>

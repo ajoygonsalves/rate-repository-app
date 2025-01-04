@@ -36,7 +36,7 @@ const SingleRepositoryReview = ({
   const reviews = data?.repository?.reviews?.edges;
 
   return (
-    <View>
+    <View style={styles.mainContainer}>
       <FlatList
         data={reviews}
         renderItem={({ item }) => <ReviewItem review={item} />}
@@ -49,6 +49,9 @@ const SingleRepositoryReview = ({
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+  },
   container: {
     padding: 10,
     backgroundColor: "white",
@@ -60,6 +63,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#e1e4e8",
+    overflow: "hidden",
   },
   ratingContainer: {
     justifyContent: "center",
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
   },
   contentContainer: {
-    paddingBottom: 20,
+    flex: 1,
   },
   username: {
     fontSize: 16,
