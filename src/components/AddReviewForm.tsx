@@ -1,5 +1,8 @@
+import { CreateReview } from "@/graphql/mutations";
+import { useMutation } from "@apollo/client";
 import { Formik, FormikProps } from "formik";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { useNavigate } from "react-router-native";
 import * as yup from "yup";
 
 interface ReviewFormValues {
@@ -10,6 +13,17 @@ interface ReviewFormValues {
 }
 
 const AddReviewForm = () => {
+  const navigate = useNavigate();
+  const [createReview] = useMutation(CreateReview, {
+    refetchQueries: ["GET_REVIEWS"],
+    onCompleted: () => {
+      console.log("Review created successfully");
+    },
+    onError: (error) => {
+      console.error("Error creating review:", error);
+    },
+  });
+
   return (
     <View>
       <Formik
@@ -19,9 +33,25 @@ const AddReviewForm = () => {
           repositoryName: "",
           repositoryOwner: "",
         }}
-        onSubmit={(values: ReviewFormValues) => {
-          console.log("Form submitted!");
+        onSubmit={async (values: ReviewFormValues) => {
           console.log("Values:", values);
+          try {
+            await createReview({
+              variables: {
+                review: {
+                  ownerName: values.repositoryOwner,
+                  rating: Number(values.rating),
+                  repositoryName: values.repositoryName,
+                  text: values.reviewText,
+                },
+              },
+            });
+            navigate(
+              `/repository/${values.repositoryOwner}.${values.repositoryName}`,
+            );
+          } catch (error) {
+            console.error("Error creating review:", error);
+          }
         }}
         validationSchema={yup.object().shape({
           rating: yup
@@ -53,6 +83,7 @@ const AddReviewForm = () => {
               value={values.rating.toString()}
               placeholder="Rating"
               keyboardType="numeric"
+              autoCapitalize="none"
             />
             {touched.rating && errors.rating && (
               <Text style={styles.errorText}>{errors.rating}</Text>
@@ -72,6 +103,7 @@ const AddReviewForm = () => {
               onChangeText={handleChange("repositoryName")}
               value={values.repositoryName}
               placeholder="Repository Name"
+              autoCapitalize="none"
             />
             {touched.repositoryName && errors.repositoryName && (
               <Text style={styles.errorText}>{errors.repositoryName}</Text>
@@ -81,6 +113,7 @@ const AddReviewForm = () => {
               onChangeText={handleChange("repositoryOwner")}
               value={values.repositoryOwner}
               placeholder="Repository Owner"
+              autoCapitalize="none"
             />
             {touched.repositoryOwner && errors.repositoryOwner && (
               <Text style={styles.errorText}>{errors.repositoryOwner}</Text>
