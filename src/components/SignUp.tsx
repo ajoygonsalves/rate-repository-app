@@ -1,3 +1,5 @@
+import { CREATE_USER } from "@/graphql/mutations";
+import { useMutation } from "@apollo/client";
 import { Formik, FormikProps } from "formik";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import * as yup from "yup";
@@ -9,6 +11,10 @@ interface ReviewFormValues {
 }
 
 const SignUp = () => {
+  const [createUser] = useMutation(CREATE_USER, {
+    refetchQueries: ["GET_USER"],
+  });
+
   return (
     <View>
       <Formik
@@ -17,15 +23,22 @@ const SignUp = () => {
           password: "",
           confirmPassword: "",
         }}
-        onSubmit={(values: ReviewFormValues) => {
-          console.log("Form submitted!");
-          console.log("Values:", values);
+        onSubmit={async (values: ReviewFormValues) => {
+          try {
+            await createUser({
+              variables: {
+                user: {
+                  username: values.email,
+                  password: values.password,
+                },
+              },
+            });
+          } catch (error) {
+            console.error("Error creating user:", error);
+          }
         }}
         validationSchema={yup.object().shape({
-          email: yup
-            .string()
-            .email("Invalid email address")
-            .required("Email is required"),
+          email: yup.string().required("Email is required"),
           password: yup.string().required("Password is required"),
           confirmPassword: yup
             .string()
@@ -47,6 +60,7 @@ const SignUp = () => {
               value={values.email}
               placeholder="Email"
               keyboardType="email-address"
+              autoCapitalize="none"
             />
             {touched.email && errors.email && (
               <Text style={styles.errorText}>{errors.email}</Text>
@@ -57,6 +71,7 @@ const SignUp = () => {
               value={values.password}
               placeholder="Password"
               multiline
+              autoCapitalize="none"
             />
             {touched.password && errors.password && (
               <Text style={styles.errorText}>{errors.password}</Text>
@@ -67,6 +82,7 @@ const SignUp = () => {
               value={values.confirmPassword}
               placeholder="Confirm Password"
               secureTextEntry
+              autoCapitalize="none"
             />
             {touched.confirmPassword && errors.confirmPassword && (
               <Text style={styles.errorText}>{errors.confirmPassword}</Text>

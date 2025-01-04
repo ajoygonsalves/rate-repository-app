@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
   },
   contentContainer: {
-    flex: 1,
+    paddingBottom: 20,
   },
   username: {
     fontSize: 16,
