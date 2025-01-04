@@ -43,6 +43,7 @@ const AppBar = () => {
 
   const unauthenticatedTabs = [
     <AppBarTab to="/sign-in" tabName="Sign In" key="sign-in" />,
+    <AppBarTab to="/sign-up" tabName="Sign Up" key="sign-up" />,
   ];
 
   const tabs = isLoggedIn ? authenticatedTabs : unauthenticatedTabs;
