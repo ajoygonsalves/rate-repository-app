@@ -33,6 +33,7 @@ const AppBar = () => {
 
   const authenticatedTabs = [
     <AppBarTab to="/add-review" tabName="Add Review" key="add-review" />,
+    <AppBarTab to="/my-reviews" tabName="My Reviews" key="my-reviews" />,
     <AppBarTab
       onPress={handleSignOut}
       to="/"

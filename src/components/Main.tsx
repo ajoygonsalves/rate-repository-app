@@ -6,6 +6,7 @@ import SignIn from "./SignIn";
 import SingleRepository from "./SingleRepository";
 import AddReviewForm from "./AddReviewForm";
 import SignUp from "./SignUp";
+import { MyReviews } from "./MyReviews";
 
 const styles = StyleSheet.create({
   container: {
@@ -29,6 +30,7 @@ const Main = () => {
           element={<SingleRepository />}
         />
         <Route path="/add-review" element={<AddReviewForm />} />
+        <Route path="/my-reviews" element={<MyReviews />} />
       </Routes>
     </View>
   );

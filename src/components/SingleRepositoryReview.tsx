@@ -3,7 +3,7 @@ import theme from "@/theme";
 import { useQuery } from "@apollo/client";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
-const ReviewItem = ({ review }: { review: any }) => {
+export const ReviewItem = ({ review }: { review: any }) => {
   return (
     <View style={styles.reviewContainer}>
       <View style={styles.ratingContainer}>
