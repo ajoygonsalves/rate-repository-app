@@ -27,6 +27,7 @@
     "react-native": "0.76.1",
     "react-native-web": "~0.19.13",
     "react-router-native": "^6.28.0",
+    "use-debounce": "^10.0.4",
     "yup": "^1.4.0"
   },
   "devDependencies": {

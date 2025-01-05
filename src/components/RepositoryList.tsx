@@ -1,8 +1,9 @@
 import useRepositories from "@/hooks/useRepositories";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import RepositoryItem from "./RepositoryItem";
 import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
+import { useDebounce } from "use-debounce";
 
 const styles = StyleSheet.create({
   separator: {
@@ -79,11 +80,13 @@ const RepositoryList = () => {
       orderBy: "RATING_AVERAGE",
       orderDirection: "ASC",
     },
-  } as const; // Make this object constant
+  } as const;
 
   const [orderBy, setOrderBy] = useState("CREATED_AT");
   const [orderDirection, setOrderDirection] = useState("DESC");
   const [sortBy, setSortBy] = useState<SortOption>("LATEST_REPOSITORIES");
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const [debouncedSearch] = useDebounce(searchKeyword, 500);
 
   const handleSort = (value: SortOption) => {
     setSortBy(value);
@@ -95,6 +98,7 @@ const RepositoryList = () => {
   const { data, loading, error } = useRepositories({
     orderBy: orderBy,
     orderDirection: orderDirection,
+    searchKeyword: debouncedSearch,
   });
 
   const repositoryNodes = data
@@ -105,10 +109,21 @@ const RepositoryList = () => {
     <View>
       {!!loading && <Text>Loading...</Text>}
       {!!error && <Text>Error...</Text>}
+
+      <TextInput
+        placeholder="Search repositories"
+        onChangeText={(text) => {
+          setSearchKeyword(text);
+        }}
+        value={searchKeyword}
+        style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+        autoCapitalize="none"
+      />
       <FlatList
         data={repositoryNodes}
         renderItem={({ item }) => <RepositoryItem {...item} />}
         ItemSeparatorComponent={ItemSeparator}
+        keyExtractor={(item) => item.id}
         ListHeaderComponent={() => (
           <View>
             <Picker selectedValue={sortBy} onValueChange={handleSort}>
