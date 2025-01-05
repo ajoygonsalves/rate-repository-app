@@ -44,6 +44,9 @@ export const ME = gql`
               id
               username
             }
+            repository {
+              id
+            }
           }
         }
       }
@@ -95,5 +98,11 @@ export const GET_REVIEWS = gql`
         }
       }
     }
+  }
+`;
+
+export const DELETE_REVIEW = gql`
+  mutation DeleteReview($deleteReviewId: ID!) {
+    deleteReview(id: $deleteReviewId)
   }
 `;
