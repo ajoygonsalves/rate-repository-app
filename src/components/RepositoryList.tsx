@@ -82,8 +82,10 @@ const RepositoryList = () => {
     },
   } as const;
 
-  const [orderBy, setOrderBy] = useState("CREATED_AT");
-  const [orderDirection, setOrderDirection] = useState("DESC");
+  const [orderBy, setOrderBy] = useState<"CREATED_AT" | "RATING_AVERAGE">(
+    "CREATED_AT",
+  );
+  const [orderDirection, setOrderDirection] = useState<"ASC" | "DESC">("DESC");
   const [sortBy, setSortBy] = useState<SortOption>("LATEST_REPOSITORIES");
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [debouncedSearch] = useDebounce(searchKeyword, 500);
@@ -95,14 +97,19 @@ const RepositoryList = () => {
     setOrderDirection(orderDirection);
   };
 
-  const { data, loading, error } = useRepositories({
+  const { data, loading, error, fetchMore } = useRepositories({
     orderBy: orderBy,
     orderDirection: orderDirection,
     searchKeyword: debouncedSearch,
+    first: 8,
   });
 
+  const handleEndReached = () => {
+    fetchMore();
+  };
+
   const repositoryNodes = data
-    ? data.repositories.edges.map((edge: any) => edge.node)
+    ? data?.repositories.edges.map((edge: any) => edge.node)
     : [];
 
   return (
@@ -142,6 +149,11 @@ const RepositoryList = () => {
             </Picker>
           </View>
         )}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={() =>
+          loading ? <Text>Loading more...</Text> : null
+        }
       />
     </View>
   );
